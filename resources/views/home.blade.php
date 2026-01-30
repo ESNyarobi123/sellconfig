@@ -6,27 +6,55 @@
     <div class="container">
         <!-- Hero Section -->
         <section class="hero">
-            <h1 class="hero-title">⚡ Premium VPN Configs</h1>
+            <h1 class="hero-title">CYBER HUNTER ONLINE 🟢 CLOUD</h1>
             <p class="hero-subtitle">
-                Pata VPN configs za kuaminika kwa bei nafuu. Mfumo wa automatiki - ukilipa unapata mara moja!
+                JIpatie config kwa Bei rahis kwa matumiz ya kawaida huku ukishinda online masaa 24 utapata cloud config kwa
+                mitandao mbal mbal nchi tanzania ila kwa Sasa huduma YETU inatokana cloud za mtandao wa HALOTEL na files za
+                Airtel tu
             </p>
             <div class="hero-badges">
-                <span class="badge">
-                    <span class="badge-icon">🚀</span>
-                    Haraka
-                </span>
-                <span class="badge">
-                    <span class="badge-icon">🔒</span>
-                    Salama
-                </span>
-                <span class="badge">
-                    <span class="badge-icon">💰</span>
-                    Bei Nafuu
-                </span>
-                <span class="badge">
-                    <span class="badge-icon">📱</span>
-                    24/7 Support
-                </span>
+                <a href="https://wa.me/260966122504" class="badge" style="text-decoration: none; color: inherit;">
+                    <span class="badge-icon">📞</span>
+                    WhatsApp Msaada
+                </a>
+                <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="badge"
+                    style="text-decoration: none; color: inherit;">
+                    <span class="badge-icon">📺</span>
+                    Youtube Channel
+                </a>
+            </div>
+        </section>
+
+        <!-- Apps Download Section -->
+        <section style="margin-bottom: 3rem;">
+            <h2 class="section-title">📲 Download Apps</h2>
+
+            <div class="plans-grid">
+                <!-- Halotel App -->
+                <div class="card" style="text-align: center; border: 1px solid var(--primary-color);">
+                    <h3 style="color: var(--primary-color);">HALOTEL UNLIMITED</h3>
+                    <p style="font-weight: bold;">VPN: HTTP INJECTOR</p>
+                    <p class="text-muted" style="font-size: 0.9rem;">
+                        Kama umedownload Play Store, futa na u-install hii ya kwetu. Ikigoma wasiliana nasi.
+                    </p>
+                    <a href="https://uploadapk.store/view-app.php?id=226" target="_blank" class="btn btn-primary"
+                        style="width: 100%; margin-top: 1rem;">
+                        <span>⬇️</span> Download HTTP Injector
+                    </a>
+                </div>
+
+                <!-- Airtel App -->
+                <div class="card" style="text-align: center; border: 1px solid #ff4500;"> <!-- Airtel red-ish color -->
+                    <h3 style="color: #ff4500;">AIRTEL VPN</h3>
+                    <p style="font-weight: bold;">HTTP CUSTOM</p>
+                    <p class="text-muted" style="font-size: 0.9rem;">
+                        Bonyeza hapa kupata file la Airtel.
+                    </p>
+                    <a href="#" class="btn btn-primary"
+                        style="background-color: #ff4500; border-color: #ff4500; width: 100%; margin-top: 1rem;">
+                        <span>⬇️</span> Download HTTP Custom
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -94,31 +122,6 @@
                     @endforeach
                 </div>
             @endif
-        </section>
-
-        <!-- How it Works -->
-        <section style="margin-top: 4rem;">
-            <h2 class="section-title">🎯 Jinsi Inavyofanya Kazi</h2>
-
-            <div class="plans-grid">
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">1️⃣</div>
-                    <h3 style="font-family: var(--font-display); margin-bottom: 0.5rem;">Chagua Plan</h3>
-                    <p class="text-muted">Angalia plans zetu na uchague inayokufaa.</p>
-                </div>
-
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">2️⃣</div>
-                    <h3 style="font-family: var(--font-display); margin-bottom: 0.5rem;">Lipa kwa Simu</h3>
-                    <p class="text-muted">Utapokea USSD push kwenye simu yako. Thibitisha kulipa.</p>
-                </div>
-
-                <div class="card" style="text-align: center;">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">3️⃣</div>
-                    <h3 style="font-family: var(--font-display); margin-bottom: 0.5rem;">Pata Config</h3>
-                    <p class="text-muted">Mara ukilipa, config yako itaonekana. Copy na uitumie!</p>
-                </div>
-            </div>
         </section>
     </div>
 @endsection

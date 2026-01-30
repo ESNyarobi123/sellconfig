@@ -79,6 +79,11 @@ class DatabaseSeeder extends Seeder
         }
 
         $this->command->info('✅ Admin user created: phone=0712345678, password=admin123');
+
+        $this->call([
+            PlanSeeder::class,
+        ]);
+
         $this->command->info('✅ Default settings created');
     }
 }

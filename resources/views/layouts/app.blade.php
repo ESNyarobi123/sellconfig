@@ -122,21 +122,25 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <span class="logo-icon">⚡</span>
-                    <span>SellConfig</span>
+                    <span>CYBER HUNTER ONLINE</span>
                 </div>
                 <p class="footer-text">Premium VPN Configs kwa bei nafuu</p>
-                @php $whatsapp = \App\Models\Setting::get('whatsapp_number'); @endphp
-                @if($whatsapp)
-                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $whatsapp) }}" class="whatsapp-btn"
-                        target="_blank">
-                        <span>💬</span> WhatsApp Support
+
+                <div class="footer-links"
+                    style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+                    <a href="https://wa.me/260966122504" class="whatsapp-btn" target="_blank"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                        <span>💬</span> WhatsApp Msaada
                     </a>
-                @endif
+                    <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="youtube-btn" target="_blank"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; color: #ff0000; background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold;">
+                        <span>📺</span> Youtube Channel
+                    </a>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; {{ date('Y') }} SellConfig. Haki zote zimehifadhiwa.</p>
+                </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; {{ date('Y') }} SellConfig. Haki zote zimehifadhiwa.</p>
-            </div>
-        </div>
     </footer>
 
     <script>
