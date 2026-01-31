@@ -12,6 +12,7 @@ class Plan extends Model
         'description',
         'price',
         'duration',
+        'type', // weekly, bi_weekly, monthly
         'image',
         'is_active',
     ];

@@ -19,6 +19,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 2000,
                 'duration' => '7 Days',
+                'type' => 'weekly',
                 'description' => 'Speed KBs 100 to 500kbs',
                 'is_active' => true,
             ]
@@ -29,6 +30,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 3000,
                 'duration' => '7 Days',
+                'type' => 'weekly',
                 'description' => 'Speed KBs 500 to 700kbs',
                 'is_active' => true,
             ]
@@ -39,6 +41,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 5000,
                 'duration' => '11 Days',
+                'type' => 'weekly',
                 'description' => 'Speed KBs 700 to 1MBs & 3Mbps',
                 'is_active' => true,
             ]
@@ -50,6 +53,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 4000,
                 'duration' => '14 Days',
+                'type' => 'bi_weekly',
                 'description' => 'Unlimited',
                 'is_active' => true,
             ]
@@ -60,6 +64,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 5000,
                 'duration' => '14 Days',
+                'type' => 'bi_weekly',
                 'description' => 'Unlimited',
                 'is_active' => true,
             ]
@@ -70,6 +75,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 8000,
                 'duration' => '18 Days',
+                'type' => 'bi_weekly',
                 'description' => 'Unlimited',
                 'is_active' => true,
             ]
@@ -81,6 +87,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 8000,
                 'duration' => '30 Days',
+                'type' => 'monthly',
                 'description' => 'Unlimited Normal',
                 'is_active' => true,
             ]
@@ -91,6 +98,7 @@ class PlanSeeder extends Seeder
             [
                 'price' => 10000,
                 'duration' => '30 Days',
+                'type' => 'monthly',
                 'description' => 'Unlimited Middle',
                 'is_active' => true,
             ]

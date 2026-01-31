@@ -66,6 +66,20 @@
         <section>
             <h2 class="section-title">📦 Chagua Plan Yako</h2>
 
+
+            <!-- Tabs -->
+            <div class="tabs-container" style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+                <button class="tab-btn active" onclick="filterPlans('weekly', this)">
+                    📅 WEEKLY
+                </button>
+                <button class="tab-btn" onclick="filterPlans('bi_weekly', this)">
+                    📅 2 WEEKLY
+                </button>
+                <button class="tab-btn" onclick="filterPlans('monthly', this)">
+                    📅 30 DAYS
+                </button>
+            </div>
+
             @if($plans->isEmpty())
                 <div class="empty-state">
                     <div class="empty-icon">📭</div>
@@ -75,7 +89,7 @@
             @else
                 <div class="plans-grid">
                     @foreach($plans as $plan)
-                        <div class="plan-card">
+                        <div class="plan-card" data-type="{{ $plan->type ?? 'weekly' }}">
                             @if($plan->image)
                                 <img src="{{ asset('storage/' . $plan->image) }}" alt="{{ $plan->name }}" class="plan-image">
                             @else
@@ -124,6 +138,63 @@
                     @endforeach
                 </div>
             @endif
+
+            <style>
+                .tab-btn {
+                    background: transparent;
+                    border: 1px solid var(--accent-primary);
+                    color: var(--accent-primary);
+                    padding: 0.5rem 1.5rem;
+                    border-radius: 9999px;
+                    cursor: pointer;
+                    font-family: var(--font-display);
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                }
+
+                .tab-btn:hover {
+                    background: rgba(102, 252, 241, 0.1);
+                }
+
+                .tab-btn.active {
+                    background: var(--accent-gradient);
+                    color: var(--bg-primary);
+                    border-color: transparent;
+                    box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
+                }
+
+                .plan-card.hidden {
+                    display: none !important;
+                }
+            </style>
+
+            <script>
+                function filterPlans(type, btn) {
+                    // Update buttons
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    if (btn) btn.classList.add('active');
+
+                    // Filter cards
+                    const cards = document.querySelectorAll('.plan-card[data-type]');
+                    let hasVisible = false;
+
+                    cards.forEach(card => {
+                        if (card.dataset.type === type) {
+                            card.classList.remove('hidden');
+                            hasVisible = true;
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+
+                    // Handle empty state if needed (optional)
+                }
+
+                // Initialize
+                document.addEventListener('DOMContentLoaded', () => {
+                    filterPlans('weekly', document.querySelector('.tab-btn'));
+                });
+            </script>
         </section>
     </div>
 @endsection
