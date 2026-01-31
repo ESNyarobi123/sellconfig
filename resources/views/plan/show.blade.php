@@ -7,11 +7,14 @@
         <div class="auth-container" style="padding-top: 0;">
             <div class="auth-card" style="max-width: 600px;">
                 @if($plan->image)
-                    <img src="{{ asset('storage/' . $plan->image) }}" alt="{{ $plan->name }}"
-                        style="width: 100%; height: 200px; object-fit: cover; border-radius: var(--radius-md); margin-bottom: var(--spacing-lg);">
+                    <div
+                        style="position: relative; overflow: hidden; border-radius: var(--radius-md); margin-bottom: var(--spacing-lg);">
+                        <img src="{{ asset('storage/' . $plan->image) }}" alt="{{ $plan->name }}"
+                            style="width: 100%; height: 200px; object-fit: cover; transition: transform 0.3s ease;">
+                    </div>
                 @else
                     <div
-                        style="height: 150px; display: flex; align-items: center; justify-content: center; font-size: 4rem; background: var(--bg-tertiary); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg);">
+                        style="height: 120px; display: flex; align-items: center; justify-content: center; font-size: 3rem; background: var(--bg-tertiary); border-radius: var(--radius-md); margin-bottom: var(--spacing-lg); border: 1px solid rgba(102, 252, 241, 0.1);">
                         📡
                     </div>
                 @endif
@@ -26,9 +29,10 @@
                     {{ $plan->description ?? 'VPN config ya kuaminika na ya haraka.' }}
                 </p>
 
-                <div class="plan-price" style="margin-bottom: var(--spacing-lg);">
-                    TZS {{ number_format($plan->price, 0, '.', ',') }}
-                    <span>/ config</span>
+                <div class="plan-price" style="margin-bottom: var(--spacing-md); font-size: 2.2rem;">
+                    <span style="font-size: 1rem; color: var(--text-muted);">TZS</span>
+                    {{ number_format($plan->price, 0, '.', ',') }}
+                    <span style="font-size: 0.9rem;">/ config</span>
                 </div>
 
                 <div class="plan-stock" style="margin-bottom: var(--spacing-xl);">

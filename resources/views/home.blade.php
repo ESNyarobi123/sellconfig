@@ -31,28 +31,32 @@
 
             <div class="plans-grid">
                 <!-- Halotel App -->
-                <div class="card" style="text-align: center; border: 1px solid var(--primary-color);">
-                    <h3 style="color: var(--primary-color);">HALOTEL UNLIMITED</h3>
-                    <p style="font-weight: bold;">VPN: HTTP INJECTOR</p>
-                    <p class="text-muted" style="font-size: 0.9rem;">
-                        Kama umedownload Play Store, futa na u-install hii ya kwetu. Ikigoma wasiliana nasi.
+                <div class="plan-card" style="border-color: var(--primary-color);">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; text-align: center;">🟢</div>
+                    <h3 style="color: var(--accent-primary); font-size: 1.1rem; text-align: center;">HALOTEL UNLIMITED</h3>
+                    <p style="font-weight: bold; font-size: 0.8rem; text-align: center; margin-bottom: 0.5rem;">VPN: HTTP
+                        INJECTOR</p>
+                    <p class="text-muted" style="font-size: 0.75rem; text-align: center; flex-grow: 1;">
+                        Kama umedownload Play Store, futa na u-install hii ya kwetu.
                     </p>
                     <a href="https://uploadapk.store/view-app.php?id=226" target="_blank" class="btn btn-primary"
-                        style="width: 100%; margin-top: 1rem;">
-                        <span>⬇️</span> Download HTTP Injector
+                        style="margin-top: 1rem;">
+                        <span>⬇️</span> Download
                     </a>
                 </div>
 
                 <!-- Airtel App -->
-                <div class="card" style="text-align: center; border: 1px solid #ff4500;"> <!-- Airtel red-ish color -->
-                    <h3 style="color: #ff4500;">AIRTEL VPN</h3>
-                    <p style="font-weight: bold;">HTTP CUSTOM</p>
-                    <p class="text-muted" style="font-size: 0.9rem;">
+                <div class="plan-card" style="border-color: #ff4500;">
+                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem; text-align: center;">🔴</div>
+                    <h3 style="color: #ff4500; font-size: 1.1rem; text-align: center;">AIRTEL VPN</h3>
+                    <p style="font-weight: bold; font-size: 0.8rem; text-align: center; margin-bottom: 0.5rem;">HTTP CUSTOM
+                    </p>
+                    <p class="text-muted" style="font-size: 0.75rem; text-align: center; flex-grow: 1;">
                         Bonyeza hapa kupata file la Airtel.
                     </p>
                     <a href="#" class="btn btn-primary"
-                        style="background-color: #ff4500; border-color: #ff4500; width: 100%; margin-top: 1rem;">
-                        <span>⬇️</span> Download HTTP Custom
+                        style="background-color: #ff4500; border-color: #ff4500; margin-top: 1rem;">
+                        <span>⬇️</span> Download
                     </a>
                 </div>
             </div>
@@ -92,15 +96,15 @@
                             </p>
 
                             <div class="plan-price">
-                                TZS {{ number_format($plan->price, 0, '.', ',') }}
-                                <span>/ config</span>
+                                <span style="font-size: 0.8rem; color: var(--text-muted);">TZS</span>
+                                {{ number_format($plan->price, 0, '.', ',') }}
+                                <span style="font-size: 0.7rem;">/ config</span>
                             </div>
 
                             <div class="plan-stock">
                                 @if($plan->available_count > 0)
                                     <span class="stock-indicator available"></span>
-                                    <span class="stock-text">Stock:</span>
-                                    <span class="stock-count">{{ $plan->available_count }} zinapatikana</span>
+                                    <span class="stock-count">{{ $plan->available_count }} in stock</span>
                                 @else
                                     <span class="stock-indicator out"></span>
                                     <span class="stock-text stock-out">Zimeisha</span>
@@ -109,13 +113,11 @@
 
                             @if($plan->available_count > 0)
                                 <a href="{{ route('plan.checkout', $plan) }}" class="btn btn-primary">
-                                    <span>🛒</span>
-                                    Nunua Sasa
+                                    <span>🛒</span> Nunua
                                 </a>
                             @else
                                 <button class="btn btn-primary" disabled>
-                                    <span>❌</span>
-                                    Imeisha Stock
+                                    <span>❌</span> Imeisha
                                 </button>
                             @endif
                         </div>

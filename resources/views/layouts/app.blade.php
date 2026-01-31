@@ -28,7 +28,7 @@
         <div class="container">
             <a href="{{ route('home') }}" class="logo">
                 <span class="logo-icon">⚡</span>
-                <span class="logo-text">SellConfig</span>
+                <span class="logo-text">CYBER.NET</span>
             </a>
 
             <div class="nav-links">
@@ -138,7 +138,7 @@
                     </a>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; {{ date('Y') }} SellConfig. Haki zote zimehifadhiwa.</p>
+                    <p>&copy; {{ date('Y') }} CYBER.NET SERVICE. Haki zote zimehifadhiwa.</p>
                 </div>
             </div>
     </footer>
