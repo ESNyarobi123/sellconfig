@@ -115,7 +115,11 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        @yield('content')
+        @if(isset($slot))
+            {{ $slot }}
+        @else
+            @yield('content')
+        @endif
     </main>
 
     <!-- Footer -->
