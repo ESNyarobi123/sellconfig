@@ -60,6 +60,42 @@
             </div>
         </div>
 
+        <!-- App Links & Socials -->
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title">🔗 App Links & Socials</h3>
+            </div>
+            <div class="admin-card-body">
+                <div class="row" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div class="admin-form-group" style="flex: 1; min-width: 300px;">
+                        <label class="form-label" for="app_halotel_link">🟢 Halotel App Link</label>
+                        <input type="url" id="app_halotel_link" name="app_halotel_link" class="form-input"
+                            value="{{ $settings['app_halotel_link'] }}" placeholder="https://...">
+                    </div>
+
+                    <div class="admin-form-group" style="flex: 1; min-width: 300px;">
+                        <label class="form-label" for="app_airtel_link">🔴 Airtel App Link</label>
+                        <input type="url" id="app_airtel_link" name="app_airtel_link" class="form-input"
+                            value="{{ $settings['app_airtel_link'] }}" placeholder="https://...">
+                    </div>
+                </div>
+
+                <div class="row" style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div class="admin-form-group" style="flex: 1; min-width: 300px;">
+                        <label class="form-label" for="whatsapp_link">💬 WhatsApp Group/Chat Link</label>
+                        <input type="url" id="whatsapp_link" name="whatsapp_link" class="form-input"
+                            value="{{ $settings['whatsapp_link'] }}" placeholder="https://wa.me/...">
+                    </div>
+
+                    <div class="admin-form-group" style="flex: 1; min-width: 300px;">
+                        <label class="form-label" for="youtube_link">📺 YouTube Channel Link</label>
+                        <input type="url" id="youtube_link" name="youtube_link" class="form-input"
+                            value="{{ $settings['youtube_link'] }}" placeholder="https://youtube.com/...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Site Settings -->
         <div class="admin-card">
             <div class="admin-card-header">

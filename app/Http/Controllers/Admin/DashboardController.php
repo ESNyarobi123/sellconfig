@@ -52,12 +52,19 @@ class DashboardController extends Controller
     /**
      * Show settings page
      */
+    /**
+     * Show settings page
+     */
     public function settings()
     {
         $settings = [
             'harakapay_api_key' => Setting::get('harakapay_api_key', ''),
             'payment_enabled' => Setting::get('payment_enabled', true),
             'whatsapp_number' => Setting::get('whatsapp_number', ''),
+            'whatsapp_link' => Setting::get('whatsapp_link', 'https://wa.me/260966122504'),
+            'youtube_link' => Setting::get('youtube_link', 'https://www.youtube.com/@CyberHunter-b6n3t'),
+            'app_halotel_link' => Setting::get('app_halotel_link', 'https://uploadapk.store/view-app.php?id=226'),
+            'app_airtel_link' => Setting::get('app_airtel_link', '#'),
             'site_name' => Setting::get('site_name', 'SellConfig'),
             'support_message' => Setting::get('support_message', ''),
         ];
@@ -73,6 +80,10 @@ class DashboardController extends Controller
         $request->validate([
             'harakapay_api_key' => 'nullable|string',
             'whatsapp_number' => 'nullable|string',
+            'whatsapp_link' => 'nullable|url',
+            'youtube_link' => 'nullable|url',
+            'app_halotel_link' => 'nullable|url',
+            'app_airtel_link' => 'nullable|url',
             'site_name' => 'nullable|string|max:255',
             'support_message' => 'nullable|string',
         ]);
@@ -80,6 +91,10 @@ class DashboardController extends Controller
         Setting::set('harakapay_api_key', $request->harakapay_api_key);
         Setting::set('payment_enabled', $request->boolean('payment_enabled'), 'boolean');
         Setting::set('whatsapp_number', $request->whatsapp_number);
+        Setting::set('whatsapp_link', $request->whatsapp_link);
+        Setting::set('youtube_link', $request->youtube_link);
+        Setting::set('app_halotel_link', $request->app_halotel_link);
+        Setting::set('app_airtel_link', $request->app_airtel_link);
         Setting::set('site_name', $request->site_name);
         Setting::set('support_message', $request->support_message);
 

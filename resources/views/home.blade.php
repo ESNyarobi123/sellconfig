@@ -13,11 +13,12 @@
                 Airtel tu
             </p>
             <div class="hero-badges">
-                <a href="https://wa.me/260966122504" class="badge" style="text-decoration: none; color: inherit;">
+                <a href="{{ $whatsappLink ?? 'https://wa.me/260966122504' }}" class="badge"
+                    style="text-decoration: none; color: inherit;">
                     <span class="badge-icon">📞</span>
                     WhatsApp Msaada
                 </a>
-                <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="badge"
+                <a href="{{ $youtubeLink ?? 'https://www.youtube.com/@CyberHunter-b6n3t' }}" class="badge"
                     style="text-decoration: none; color: inherit;">
                     <span class="badge-icon">📺</span>
                     Youtube Channel
@@ -34,6 +35,8 @@
                 @php
                     $halotelLink = \App\Models\Setting::get('app_halotel_link', 'https://uploadapk.store/view-app.php?id=226');
                     $airtelLink = \App\Models\Setting::get('app_airtel_link', '#');
+                    $whatsappLink = \App\Models\Setting::get('whatsapp_link', 'https://wa.me/260966122504');
+                    $youtubeLink = \App\Models\Setting::get('youtube_link', 'https://www.youtube.com/@CyberHunter-b6n3t');
                 @endphp
 
                 <div class="plan-card" style="border-color: var(--primary-color);">
@@ -167,44 +170,187 @@
             </div>
 
             <style>
-                /* Blue Theme Plan Card */
-                .plan-card.blue-theme {
-                    background: linear-gradient(135deg, rgba(16, 52, 166, 0.8) 0%, rgba(37, 99, 235, 0.4) 100%);
-                    border: 1px solid rgba(147, 197, 253, 0.3);
-                    backdrop-filter: blur(10px);
-                    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-                    transition: all 0.3s ease;
+                /* AMAZING BLUE THEME - RESPONSIVE & COMPACT */
+
+                /* Responsive Grid System */
+                .plans-grid {
+                    display: grid !important;
+                    /* Mobile First: 2 columns by default on very small screens, then auto-fill */
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 8px !important;
+                    padding: 0 4px !important;
                 }
 
-                .plan-card.blue-theme:hover {
-                    background: #DCEEFF;
-                    transform: translateY(-5px);
-                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                @media (min-width: 600px) {
+                    .plans-grid {
+                        /* Tablet & Up: Adaptive based on space */
+                        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important;
+                        gap: 12px !important;
+                        padding: 0 10px !important;
+                    }
+                }
+
+                @media (min-width: 1024px) {
+                    .plans-grid {
+                        /* Desktop: Slightly larger spacing */
+                        gap: 16px !important;
+                    }
+                }
+
+                .plan-card,
+                .plan-card.blue-theme {
+                    background: linear-gradient(135deg, #001e4d 0%, #004e92 100%) !important;
+                    border: 1px solid rgba(100, 200, 255, 0.2) !important;
+                    border-radius: 12px !important;
+                    /* Smaller radius */
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+                    backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
+                    padding: 0.75rem !important;
+                    /* Reduced padding significantly */
+                    position: relative;
+                    overflow: hidden;
+                    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+                }
+
+                /* Shiny Glass Effect Overlay */
+                .plan-card::after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.01) 100%);
+                    z-index: 0;
+                    pointer-events: none;
+                }
+
+                .plan-card:hover {
+                    transform: translateY(-4px) scale(1.02) !important;
+                    box-shadow: 0 8px 20px rgba(0, 80, 255, 0.4) !important;
+                    border-color: #66FCF1 !important;
+                    background: linear-gradient(135deg, #003366 0%, #0059b3 100%) !important;
+                    z-index: 10;
+                }
+
+                /* Content Styling */
+                .plan-card * {
+                    position: relative;
+                    z-index: 1;
+                }
+
+                .plan-name {
+                    font-size: 0.9rem !important;
+                    /* Smaller Title */
+                    font-weight: 700 !important;
+                    letter-spacing: 0.5px;
+                    color: #fff !important;
+                    text-transform: uppercase;
+                    margin-bottom: 0.4rem !important;
+                    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+                    line-height: 1.2;
+                }
+
+                .plan-image {
+                    background: rgba(255, 255, 255, 0.1) !important;
+                    border-radius: 8px !important;
+                    margin-bottom: 0.5rem !important;
+                    height: 50px !important;
+                    /* Smaller Height */
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+                }
+
+                /* Icon/Emoji size in App Download cards */
+                .plan-card div[style*="font-size: 2.5rem"] {
+                    font-size: 2rem !important;
+                    /* Smaller Emoji */
+                    margin-bottom: 0.25rem !important;
+                }
+
+                .plan-description {
+                    font-size: 0.65rem !important;
+                    /* Smaller description */
+                    line-height: 1.2;
+                    margin-bottom: 0.5rem !important;
+                    color: #bae6fd !important;
+                    /* Nice Light Cyan for Readability */
+                    font-weight: 500;
+                    opacity: 0.9;
+                }
+
+                .plan-stock {
+                    font-size: 0.6rem !important;
+                    margin-bottom: 0.4rem !important;
+                }
+
+                .stock-indicator {
+                    width: 6px !important;
+                    height: 6px !important;
+                }
+
+                .plan-price {
+                    font-size: 1.1rem !important;
+                    /* Smaller Price */
+                    color: #66FCF1 !important;
+                    text-shadow: 0 0 10px rgba(102, 252, 241, 0.6);
+                    font-weight: 800 !important;
+                    margin: 0.5rem 0 !important;
+                }
+
+                .plan-price span {
+                    font-size: 0.7rem !important;
+                    color: rgba(255, 255, 255, 0.8) !important;
+                }
+
+                /* Button Upgrade - Compact */
+                .btn-primary {
+                    background: linear-gradient(90deg, #00C6FF 0%, #0072FF 100%) !important;
+                    border: none !important;
+                    font-weight: bold !important;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    box-shadow: 0 2px 8px rgba(0, 114, 255, 0.4) !important;
+                    padding: 0.4rem 0.8rem !important;
+                    /* Smaller padding */
+                    font-size: 0.8rem !important;
+                    /* Smaller text */
+                    min-height: auto !important;
+                }
+
+                .btn-primary:hover {
+                    box-shadow: 0 4px 12px rgba(0, 198, 255, 0.6) !important;
+                    transform: translateY(-1px);
                 }
 
                 /* Tabs Styling */
                 .tab-btn {
-                    background: transparent;
-                    border: 1px solid var(--accent-primary);
-                    color: var(--accent-primary);
-                    padding: 0.5rem 1.5rem;
-                    border-radius: 9999px;
+                    background: rgba(0, 30, 80, 0.6);
+                    border: 1px solid rgba(102, 252, 241, 0.3);
+                    color: rgba(255, 255, 255, 0.7);
+                    padding: 0.5rem 1rem;
+                    /* Smaller tabs */
+                    font-size: 0.85rem;
+                    border-radius: 50px;
                     cursor: pointer;
                     font-family: var(--font-display);
-                    font-weight: 500;
+                    font-weight: 600;
                     transition: all 0.3s ease;
+                    backdrop-filter: blur(5px);
                 }
 
                 .tab-btn:hover {
-                    background: rgba(102, 252, 241, 0.1);
+                    background: rgba(102, 252, 241, 0.2);
+                    color: #fff;
+                    transform: translateY(-2px);
                 }
 
                 .tab-btn.active {
-                    background: var(--accent-gradient);
-                    color: darkblue !important;
+                    background: linear-gradient(90deg, #00C6FF 0%, #0072FF 100%);
+                    color: white !important;
                     /* Fixed visibility on active */
                     border-color: transparent;
-                    box-shadow: 0 0 15px rgba(102, 252, 241, 0.5);
+                    box-shadow: 0 0 20px rgba(0, 114, 255, 0.5);
                 }
             </style>
         </section>
