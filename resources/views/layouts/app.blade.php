@@ -26,25 +26,27 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
-            <a href="{{ route('home') }}" class="logo">
+            <a href="{{ route('home') }}" class="logo" wire:navigate>
                 <span class="logo-icon">⚡</span>
                 <span class="logo-text">CYBER.NET</span>
             </a>
 
             <div class="nav-links">
-                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                    wire:navigate>
                     <span class="nav-icon">🏠</span>
                     <span>Nyumbani</span>
                 </a>
 
                 @auth
-                    <a href="{{ route('history') }}" class="nav-link {{ request()->routeIs('history') ? 'active' : '' }}">
+                    <a href="{{ route('history') }}" class="nav-link {{ request()->routeIs('history') ? 'active' : '' }}"
+                        wire:navigate>
                         <span class="nav-icon">📦</span>
                         <span>Historia</span>
                     </a>
 
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link nav-admin">
+                        <a href="{{ route('admin.dashboard') }}" class="nav-link nav-admin" wire:navigate>
                             <span class="nav-icon">⚙️</span>
                             <span>Admin</span>
                         </a>
@@ -58,11 +60,11 @@
                         </form>
                     </div>
                 @else
-                    <a href="{{ route('login') }}" class="nav-link">
+                    <a href="{{ route('login') }}" class="nav-link" wire:navigate>
                         <span class="nav-icon">🔑</span>
                         <span>Ingia</span>
                     </a>
-                    <a href="{{ route('register') }}" class="btn-primary-nav">
+                    <a href="{{ route('register') }}" class="btn-primary-nav" wire:navigate>
                         Jiandikishe
                     </a>
                 @endauth

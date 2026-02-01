@@ -13,6 +13,8 @@ class Plan extends Model
         'price',
         'duration',
         'type', // weekly, bi_weekly, monthly
+        'duration_days',
+        'group_key',
         'image',
         'is_active',
     ];
@@ -20,7 +22,43 @@ class Plan extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'is_active' => 'boolean',
+        'duration_days' => 'integer',
     ];
+
+    protected static function booted()
+    {
+        static::saving(function ($plan) {
+            $plan->normalizeDuration();
+        });
+    }
+
+    public function normalizeDuration()
+    {
+        // 1. Determine days based on type first (Explicit)
+        if ($this->type === 'weekly') {
+            $this->duration_days = 7;
+        } elseif ($this->type === 'bi_weekly') {
+            $this->duration_days = 14;
+        } elseif ($this->type === 'monthly') {
+            $this->duration_days = 30;
+        }
+
+        // If type didn't set it (fallback), keep existing or default
+        if (!$this->duration_days) {
+            $this->duration_days = 7;
+        }
+
+        // 2. Set strict group key
+        if ($this->duration_days == 7) {
+            $this->group_key = 'week_1';
+        } elseif ($this->duration_days == 14) {
+            $this->group_key = 'week_2';
+        } elseif ($this->duration_days == 30) {
+            $this->group_key = 'month_1';
+        } else {
+            $this->group_key = 'other';
+        }
+    }
 
     /**
      * Get configs for this plan

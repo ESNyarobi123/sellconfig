@@ -23,6 +23,22 @@
                     </div>
 
                     <div class="admin-form-group">
+                        <label class="form-label" for="type">Category (Type) *</label>
+                        <select id="type" name="type" class="form-input" required>
+                            <option value="">Chagua Aina</option>
+                            <option value="weekly" {{ old('type') == 'weekly' ? 'selected' : '' }}>Weekly (Wiki)</option>
+                            <option value="bi_weekly" {{ old('type') == 'bi_weekly' ? 'selected' : '' }}>Bi-Weekly (Wiki 2)
+                            </option>
+                            <option value="monthly" {{ old('type') == 'monthly' ? 'selected' : '' }}>Monthly (Mwezi)</option>
+                        </select>
+                        @error('type')
+                            <p class="form-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="admin-form-row">
+                    <div class="admin-form-group">
                         <label class="form-label" for="price">Price (TZS) *</label>
                         <input type="number" id="price" name="price" class="form-input" value="{{ old('price') }}"
                             placeholder="5000" min="100" required>
@@ -30,9 +46,7 @@
                             <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
 
-                <div class="admin-form-row">
                     <div class="admin-form-group">
                         <label class="form-label" for="duration">Duration</label>
                         <input type="text" id="duration" name="duration" class="form-input" value="{{ old('duration') }}"
@@ -41,7 +55,9 @@
                             <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
+                </div>
 
+                <div class="admin-form-row">
                     <div class="admin-form-group">
                         <label class="form-label" for="image">Plan Image</label>
                         <input type="file" id="image" name="image" class="form-input" accept="image/*">

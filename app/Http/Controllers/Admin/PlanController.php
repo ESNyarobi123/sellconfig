@@ -42,13 +42,14 @@ class PlanController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|in:weekly,bi_weekly,monthly',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:100',
             'duration' => 'nullable|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = $request->only(['name', 'description', 'price', 'duration']);
+        $data = $request->only(['name', 'type', 'description', 'price', 'duration']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('plans', 'public');
@@ -76,13 +77,14 @@ class PlanController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'type' => 'required|in:weekly,bi_weekly,monthly',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:100',
             'duration' => 'nullable|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
-        $data = $request->only(['name', 'description', 'price', 'duration']);
+        $data = $request->only(['name', 'type', 'description', 'price', 'duration']);
         $data['is_active'] = $request->boolean('is_active');
 
         if ($request->hasFile('image')) {
