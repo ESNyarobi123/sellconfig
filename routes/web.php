@@ -87,6 +87,14 @@ Route::get('/fix-plans', function () {
         $viewStatus = "❌ View Error: " . $e->getMessage();
     }
 
+    // Publish Livewire Assets
+    try {
+        \Illuminate\Support\Facades\Artisan::call('livewire:publish', ['--assets' => true]);
+        $viewStatus .= "<br>✅ Livewire Assets Published.";
+    } catch (\Exception $e) {
+        $viewStatus .= "<br>⚠️ Assets Error (Might be fine if already exists): " . $e->getMessage();
+    }
+
     return '<h1>Diagnostics Check</h1>' .
         '<h3>View Status:</h3>' . $viewStatus .
         '<h3>Plans Fixed:</h3><pre>' . implode("\n", $results) . '</pre><br><a href="/">Go Home</a>';
