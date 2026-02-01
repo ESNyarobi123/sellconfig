@@ -14,9 +14,12 @@ class HomeController extends Controller
     /**
      * Show home/landing page with plans
      */
-    public function index()
+    public function index(Request $request)
     {
+        $activeTab = $request->query('tab', 'week_1');
+
         $plans = Plan::where('is_active', true)
+            ->where('group_key', $activeTab)
             ->withCount([
                 'configs as available_count' => function ($query) {
                     $query->where('status', 'available');
@@ -25,7 +28,7 @@ class HomeController extends Controller
             ->orderBy('price')
             ->get();
 
-        return view('home', compact('plans'));
+        return view('home', compact('plans', 'activeTab'));
     }
 
     /**

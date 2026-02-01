@@ -30,13 +30,13 @@
 
             <nav class="sidebar-nav">
                 <a href="{{ route('admin.dashboard') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" wire:navigate>
+                    class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <span class="link-icon">📊</span>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="{{ route('admin.plans.index') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}" wire:navigate>
+                    class="sidebar-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
                     <span class="link-icon">📦</span>
                     <span>Plans</span>
                 </a>
@@ -62,7 +62,7 @@
                 <div class="sidebar-divider"></div>
 
                 <a href="{{ route('admin.settings') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}" wire:navigate>
+                    class="sidebar-link {{ request()->routeIs('admin.settings') ? 'active' : '' }}">
                     <span class="link-icon">⚙️</span>
                     <span>Settings</span>
                 </a>

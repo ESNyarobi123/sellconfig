@@ -13,170 +13,168 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @livewireStyles
+
     @stack('styles')
 </head>
 
 <body>
     <!-- ... body content ... -->
 
-    @livewireScripts
+
     @stack('scripts')
 </body>
-    <!-- Animated Background -->
-    <div class="cyber-bg">
-        <div class="cyber-grid"></div>
-        <div class="cyber-glow"></div>
-    </div>
+<!-- Animated Background -->
+<div class="cyber-bg">
+    <div class="cyber-grid"></div>
+    <div class="cyber-glow"></div>
+</div>
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="{{ route('home') }}" class="logo" wire:navigate>
-                <span class="logo-icon">⚡</span>
-                <span class="logo-text">CYBER.NET</span>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="{{ route('home') }}" class="logo">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">CYBER.NET</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                <span class="nav-icon">🏠</span>
+                <span>Nyumbani</span>
             </a>
 
-            <div class="nav-links">
-                <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
-                    wire:navigate>
-                    <span class="nav-icon">🏠</span>
-                    <span>Nyumbani</span>
+            @auth
+                <a href="{{ route('history') }}" class="nav-link {{ request()->routeIs('history') ? 'active' : '' }}">
+                    <span class="nav-icon">📦</span>
+                    <span>Historia</span>
                 </a>
 
-                @auth
-                    <a href="{{ route('history') }}" class="nav-link {{ request()->routeIs('history') ? 'active' : '' }}"
-                        wire:navigate>
-                        <span class="nav-icon">📦</span>
-                        <span>Historia</span>
+                @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.dashboard') }}" class="nav-link nav-admin">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Admin</span>
                     </a>
+                @endif
 
-                    @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link nav-admin" wire:navigate>
-                            <span class="nav-icon">⚙️</span>
-                            <span>Admin</span>
-                        </a>
-                    @endif
-
-                    <div class="nav-user">
-                        <span class="user-name">{{ auth()->user()->name }}</span>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="btn-logout">Toka</button>
-                        </form>
-                    </div>
-                @else
-                    <a href="{{ route('login') }}" class="nav-link" wire:navigate>
-                        <span class="nav-icon">🔑</span>
-                        <span>Ingia</span>
-                    </a>
-                    <a href="{{ route('register') }}" class="btn-primary-nav" wire:navigate>
-                        Jiandikishe
-                    </a>
-                @endauth
-            </div>
-
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+                <div class="nav-user">
+                    <span class="user-name">{{ auth()->user()->name }}</span>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="btn-logout">Toka</button>
+                    </form>
+                </div>
+            @else
+                <a href="{{ route('login') }}" class="nav-link">
+                    <span class="nav-icon">🔑</span>
+                    <span>Ingia</span>
+                </a>
+                <a href="{{ route('register') }}" class="btn-primary-nav">
+                    Jiandikishe
+                </a>
+            @endauth
         </div>
-    </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="{{ route('home') }}" class="mobile-link">🏠 Nyumbani</a>
-        @auth
-            <a href="{{ route('history') }}" class="mobile-link">📦 Historia</a>
-            @if(auth()->user()->isAdmin())
-                <a href="{{ route('admin.dashboard') }}" class="mobile-link">⚙️ Admin</a>
-            @endif
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="mobile-link logout-btn">🚪 Toka</button>
-            </form>
-        @else
-            <a href="{{ route('login') }}" class="mobile-link">🔑 Ingia</a>
-            <a href="{{ route('register') }}" class="mobile-link primary">✨ Jiandikishe</a>
-        @endauth
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
+</nav>
 
-    <!-- Flash Messages -->
-    @if(session('success'))
-        <div class="alert alert-success">
-            <span class="alert-icon">✅</span>
-            {{ session('success') }}
-            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
-        </div>
-    @endif
-
-    @if(session('error'))
-        <div class="alert alert-error">
-            <span class="alert-icon">❌</span>
-            {{ session('error') }}
-            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
-        </div>
-    @endif
-
-    <!-- Main Content -->
-    <main class="main-content">
-        @if(isset($slot))
-            {{ $slot }}
-        @else
-            @yield('content')
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="{{ route('home') }}" class="mobile-link">🏠 Nyumbani</a>
+    @auth
+        <a href="{{ route('history') }}" class="mobile-link">📦 Historia</a>
+        @if(auth()->user()->isAdmin())
+            <a href="{{ route('admin.dashboard') }}" class="mobile-link">⚙️ Admin</a>
         @endif
-    </main>
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="mobile-link logout-btn">🚪 Toka</button>
+        </form>
+    @else
+        <a href="{{ route('login') }}" class="mobile-link">🔑 Ingia</a>
+        <a href="{{ route('register') }}" class="mobile-link primary">✨ Jiandikishe</a>
+    @endauth
+</div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <span class="logo-icon">⚡</span>
-                    <span>CYBER HUNTER ONLINE</span>
-                </div>
-                <p class="footer-text">Premium VPN Configs kwa bei nafuu</p>
+<!-- Flash Messages -->
+@if(session('success'))
+    <div class="alert alert-success">
+        <span class="alert-icon">✅</span>
+        {{ session('success') }}
+        <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+    </div>
+@endif
 
-                <div class="footer-links"
-                    style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
-                    <a href="https://wa.me/260966122504" class="whatsapp-btn" target="_blank"
-                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
-                        <span>💬</span> WhatsApp Msaada
-                    </a>
-                    <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="youtube-btn" target="_blank"
-                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; color: #ff0000; background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold;">
-                        <span>📺</span> Youtube Channel
-                    </a>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; {{ date('Y') }} CYBER.NET SERVICE. Haki zote zimehifadhiwa.</p>
-                </div>
+@if(session('error'))
+    <div class="alert alert-error">
+        <span class="alert-icon">❌</span>
+        {{ session('error') }}
+        <button class="alert-close" onclick="this.parentElement.remove()">×</button>
+    </div>
+@endif
+
+<!-- Main Content -->
+<main class="main-content">
+    @if(isset($slot))
+        {{ $slot }}
+    @else
+        @yield('content')
+    @endif
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon">⚡</span>
+                <span>CYBER HUNTER ONLINE</span>
             </div>
-    </footer>
+            <p class="footer-text">Premium VPN Configs kwa bei nafuu</p>
 
-    <script>
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
+            <div class="footer-links"
+                style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+                <a href="https://wa.me/260966122504" class="whatsapp-btn" target="_blank"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>💬</span> WhatsApp Msaada
+                </a>
+                <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="youtube-btn" target="_blank"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; color: #ff0000; background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold;">
+                    <span>📺</span> Youtube Channel
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ date('Y') }} CYBER.NET SERVICE. Haki zote zimehifadhiwa.</p>
+            </div>
+        </div>
+</footer>
+
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+    }
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            document.getElementById('mobileMenu').classList.remove('active');
         }
+    });
 
-        // Close mobile menu on resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.getElementById('mobileMenu').classList.remove('active');
-            }
+    // Auto dismiss alerts
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(alert => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
         });
-
-        // Auto dismiss alerts
-        setTimeout(() => {
-            document.querySelectorAll('.alert').forEach(alert => {
-                alert.style.opacity = '0';
-                setTimeout(() => alert.remove(), 300);
-            });
-        }, 5000);
-    </script>
-    @stack('scripts')
+    }, 5000);
+</script>
+@stack('scripts')
 </body>
 
 </html>

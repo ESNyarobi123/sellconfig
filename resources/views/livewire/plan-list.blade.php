@@ -44,7 +44,9 @@
                                 </div>
                             @endif
 
-                            <h3 class="plan-name" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">{{ $plan->name }}</h3>
+                            <h3 class="plan-name" style="color: #ffffff; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">
+                                {{ $plan->name }}
+                            </h3>
 
                             @if($plan->duration)
                                 <span class="plan-duration"
@@ -64,7 +66,8 @@
 
                             <div class="plan-stock">
                                 @if($plan->available_count > 0)
-                                    <span class="stock-indicator available" style="background: #4ade80; box-shadow: 0 0 10px #4ade80;"></span>
+                                    <span class="stock-indicator available"
+                                        style="background: #4ade80; box-shadow: 0 0 10px #4ade80;"></span>
                                     <span class="stock-count" style="color: #4ade80;">{{ $plan->available_count }} in
                                         stock</span>
                                 @else
