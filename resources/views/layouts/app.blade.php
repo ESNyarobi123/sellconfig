@@ -138,17 +138,21 @@
 
             <div class="footer-links"
                 style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
-                <a href="https://wa.me/260966122504" class="whatsapp-btn" target="_blank"
+                <a href="{{ \App\Models\Setting::get('whatsapp_link', 'https://wa.me/260966122504') }}"
+                    class="whatsapp-btn" target="_blank"
                     style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
                     <span>💬</span> WhatsApp Msaada
                 </a>
-                <a href="https://www.youtube.com/@CyberHunter-b6n3t" class="youtube-btn" target="_blank"
+                <a href="{{ \App\Models\Setting::get('youtube_link', 'https://www.youtube.com/@CyberHunter-b6n3t') }}"
+                    class="youtube-btn" target="_blank"
                     style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; color: #ff0000; background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold;">
                     <span>📺</span> Youtube Channel
                 </a>
             </div>
             <div class="footer-bottom">
                 <p>&copy; {{ date('Y') }} CYBER.NET SERVICE. Haki zote zimehifadhiwa.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Developer by <span
+                        style="color: var(--accent-primary);">ERICKsky</span></p>
             </div>
         </div>
 </footer>
