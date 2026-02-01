@@ -63,3 +63,14 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name('admin.')->grou
     // Route::delete('/configs/{config}', [ConfigController::class, 'destroy'])->name('configs.destroy'); // Handled in Livewire
     // Route::delete('/configs-all', [ConfigController::class, 'destroyAll'])->name('configs.destroyAll'); // Handled in Livewire
 });
+
+// TEMPORARY: Route to run migrations online (Delete after use)
+Route::get('/run-migration', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PlanSeeder', '--force' => true]);
+        return '<h1>✅ Database Updated Successfully!</h1><p>Tables migrated and Plans seeded.</p><a href="/">Go Home</a>';
+    } catch (\Exception $e) {
+        return '<h1>❌ Error:</h1><pre>' . $e->getMessage() . '</pre>';
+    }
+});
