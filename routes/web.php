@@ -64,13 +64,14 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name('admin.')->grou
     // Route::delete('/configs-all', [ConfigController::class, 'destroyAll'])->name('configs.destroyAll'); // Handled in Livewire
 });
 
-// TEMPORARY: Route to run migrations online (Delete after use)
-Route::get('/run-migration', function () {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PlanSeeder', '--force' => true]);
-        return '<h1>✅ Database Updated Successfully!</h1><p>Tables migrated and Plans seeded.</p><a href="/">Go Home</a>';
-    } catch (\Exception $e) {
-        return '<h1>❌ Error:</h1><pre>' . $e->getMessage() . '</pre>';
+// TEMPORARY: Fix Plans Data
+Route::get('/fix-plans', function () {
+    $plans = \App\Models\Plan::all();
+    $results = [];
+    foreach ($plans as $plan) {
+        // Force re-save to trigger normalization
+        $plan->save();
+        $results[] = "Fixed: {$plan->name} -> Type: {$plan->type} -> Group: {$plan->group_key}";
     }
+    return '<h1>Data Fixed!</h1><pre>' . implode("\n", $results) . '</pre><br><a href="/">Go Home</a>';
 });
