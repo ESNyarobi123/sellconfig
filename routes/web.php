@@ -64,14 +64,30 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name('admin.')->grou
     // Route::delete('/configs-all', [ConfigController::class, 'destroyAll'])->name('configs.destroyAll'); // Handled in Livewire
 });
 
-// TEMPORARY: Fix Plans Data
+// TEMPORARY: Fix Plans Data & Debug View
 Route::get('/fix-plans', function () {
     $plans = \App\Models\Plan::all();
     $results = [];
     foreach ($plans as $plan) {
-        // Force re-save to trigger normalization
+        $plan->is_active = true; // FORCE ENABLE
         $plan->save();
-        $results[] = "Fixed: {$plan->name} -> Type: {$plan->type} -> Group: {$plan->group_key}";
+        $results[] = "Fixed: {$plan->name} (Active: 1) -> Group: {$plan->group_key}";
     }
-    return '<h1>Data Fixed!</h1><pre>' . implode("\n", $results) . '</pre><br><a href="/">Go Home</a>';
+
+    // Debug View
+    $viewStatus = "✅ View 'livewire.plan-list' found.";
+    try {
+        if (!view()->exists('livewire.plan-list')) {
+            $viewStatus = "❌ CRITICAL: View 'resources/views/livewire/plan-list.blade.php' NOT FOUND on server.";
+        } else {
+            // Try to make sure it has no syntax errors
+            view('livewire.plan-list', ['plans' => $plans, 'activeTab' => 'week_1'])->render();
+        }
+    } catch (\Exception $e) {
+        $viewStatus = "❌ View Error: " . $e->getMessage();
+    }
+
+    return '<h1>Diagnostics Check</h1>' .
+        '<h3>View Status:</h3>' . $viewStatus .
+        '<h3>Plans Fixed:</h3><pre>' . implode("\n", $results) . '</pre><br><a href="/">Go Home</a>';
 });
