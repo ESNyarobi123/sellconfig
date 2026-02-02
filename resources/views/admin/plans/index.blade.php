@@ -11,6 +11,60 @@
                 ➕ Add Plan
             </a>
         </div>
+
+        <!-- Category Tabs -->
+        <div
+            style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <a href="{{ route('admin.plans.index', ['type' => 'all']) }}"
+                class="tab-filter-btn {{ $type === 'all' ? 'active' : '' }}">
+                📋 All
+            </a>
+            <a href="{{ route('admin.plans.index', ['type' => 'weekly']) }}"
+                class="tab-filter-btn {{ $type === 'weekly' ? 'active' : '' }}">
+                📅 Weekly
+            </a>
+            <a href="{{ route('admin.plans.index', ['type' => 'bi_weekly']) }}"
+                class="tab-filter-btn {{ $type === 'bi_weekly' ? 'active' : '' }}">
+                📅 Bi-Weekly
+            </a>
+            <a href="{{ route('admin.plans.index', ['type' => 'monthly']) }}"
+                class="tab-filter-btn {{ $type === 'monthly' ? 'active' : '' }}">
+                📅 Monthly
+            </a>
+            <a href="{{ route('admin.plans.index', ['type' => 'other']) }}"
+                class="tab-filter-btn {{ $type === 'other' ? 'active' : '' }}">
+                📂 Other
+            </a>
+        </div>
+
+        <style>
+            .tab-filter-btn {
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                background: rgba(0, 0, 0, 0.2);
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.85rem;
+                transition: all 0.3s ease;
+                display: inline-block;
+            }
+
+            .tab-filter-btn:hover {
+                background: rgba(102, 252, 241, 0.1);
+                border-color: rgba(102, 252, 241, 0.3);
+                color: #fff;
+            }
+
+            .tab-filter-btn.active {
+                background: linear-gradient(90deg, #00C6FF 0%, #0072FF 100%);
+                border-color: transparent;
+                color: #fff;
+                box-shadow: 0 2px 8px rgba(0, 114, 255, 0.4);
+            }
+        </style>
+
         <div class="admin-card-body" style="padding: 0;">
             <div class="table-container">
                 <table class="table">

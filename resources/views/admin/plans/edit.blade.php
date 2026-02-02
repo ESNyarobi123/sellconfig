@@ -25,7 +25,7 @@
 
                     <div class="admin-form-group">
                         <label class="form-label" for="type">Category (Type) *</label>
-                        <select id="type" name="type" class="form-input" required>
+                        <select id="type" name="type" class="form-input" required onchange="toggleDurationDays()">
                             <option value="">Chagua Aina</option>
                             <option value="weekly" {{ old('type', $plan->type) == 'weekly' ? 'selected' : '' }}>Weekly (Wiki)
                             </option>
@@ -33,12 +33,50 @@
                                 Bi-Weekly (Wiki 2)</option>
                             <option value="monthly" {{ old('type', $plan->type) == 'monthly' ? 'selected' : '' }}>Monthly
                                 (Mwezi)</option>
+                            <option value="other" {{ old('type', $plan->type) == 'other' ? 'selected' : '' }}>Other (Nyingine)
+                            </option>
                         </select>
                         @error('type')
                             <p class="form-error">{{ $message }}</p>
                         @enderror
                     </div>
                 </div>
+
+                <!-- Duration Days - Only for 'Other' type -->
+                @php
+                    $showDurationDays = old('type', $plan->type) == 'other' ? 'flex' : 'none';
+                @endphp
+                <div class="admin-form-row" id="duration-days-row" style="display: {{ $showDurationDays }};">
+                    <div class="admin-form-group">
+                        <label class="form-label" for="duration_days">Duration Days (Siku) *</label>
+                        <input type="number" id="duration_days" name="duration_days" class="form-input"
+                            value="{{ old('duration_days', $plan->duration_days) }}" placeholder="Mfano: 90" min="1"
+                            max="365">
+                        <small style="color: var(--text-muted); font-size: 0.8rem;">Weka idadi ya siku kwa plan hii
+                            (1-365)</small>
+                        @error('duration_days')
+                            <p class="form-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDurationDays() {
+                        var type = document.getElementById('type').value;
+                        var durationDaysRow = document.getElementById('duration-days-row');
+                        var durationDaysInput = document.getElementById('duration_days');
+
+                        if (type === 'other') {
+                            durationDaysRow.style.display = 'flex';
+                            durationDaysInput.required = true;
+                        } else {
+                            durationDaysRow.style.display = 'none';
+                            durationDaysInput.required = false;
+                        }
+                    }
+                    // Run on page load
+                    document.addEventListener('DOMContentLoaded', toggleDurationDays);
+                </script>
 
                 <div class="admin-form-row">
                     <div class="admin-form-group">

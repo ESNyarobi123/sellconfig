@@ -73,4 +73,13 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->name('admin.')->grou
     Route::put('/configs/{config}', [ConfigController::class, 'update'])->name('configs.update');
     Route::delete('/configs/{config}', [ConfigController::class, 'destroy'])->name('configs.destroy');
     Route::delete('/configs-all', [ConfigController::class, 'destroyAll'])->name('configs.destroyAll');
+
+    // Notifications
+    Route::get('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('/notifications/create', [App\Http\Controllers\Admin\NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('/notifications', [App\Http\Controllers\Admin\NotificationController::class, 'send'])->name('notifications.send');
+    Route::post('/notifications/{message}/resend', [App\Http\Controllers\Admin\NotificationController::class, 'resend'])->name('notifications.resend');
 });
+
+// Push Subscription Route (Public/Auth)
+Route::post('/push/subscribe', [App\Http\Controllers\PushController::class, 'store'])->name('push.subscribe');

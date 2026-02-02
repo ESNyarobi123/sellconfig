@@ -41,6 +41,12 @@ class Plan extends Model
             $this->duration_days = 14;
         } elseif ($this->type === 'monthly') {
             $this->duration_days = 30;
+        } elseif ($this->type === 'other') {
+            // For 'other' type, keep the custom duration_days value
+            // If not set, default to 7
+            if (!$this->duration_days || $this->duration_days < 1) {
+                $this->duration_days = 7;
+            }
         }
 
         // If type didn't set it (fallback), keep existing or default
@@ -49,11 +55,11 @@ class Plan extends Model
         }
 
         // 2. Set strict group key
-        if ($this->duration_days == 7) {
+        if ($this->duration_days == 7 && $this->type !== 'other') {
             $this->group_key = 'week_1';
-        } elseif ($this->duration_days == 14) {
+        } elseif ($this->duration_days == 14 && $this->type !== 'other') {
             $this->group_key = 'week_2';
-        } elseif ($this->duration_days == 30) {
+        } elseif ($this->duration_days == 30 && $this->type !== 'other') {
             $this->group_key = 'month_1';
         } else {
             $this->group_key = 'other';

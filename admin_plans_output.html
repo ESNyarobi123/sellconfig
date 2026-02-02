@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<html lang="sw">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SellConfig - Pata VPN Configs kwa bei nafuu">
+    <title>Ingia - Premium VPN Configs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="http://127.0.0.1:8000/css/app.css?v=1769852434">
+    <meta name="csrf-token" content="XawHuvyUfa1mNb4KfGihZRDhInFksJiT29zdZGEL">
+
+    <script id="browser-logger-active">
+(function() {
+    const ENDPOINT = 'http://127.0.0.1:8000/_boost/browser-logs';
+    const logQueue = [];
+    let flushTimeout = null;
+
+    console.log('🔍 Browser logger active (MCP server detected). Posting to: ' + ENDPOINT);
+
+    // Store original console methods
+    const originalConsole = {
+        log: console.log,
+        info: console.info,
+        error: console.error,
+        warn: console.warn,
+        table: console.table
+    };
+
+    // Helper to safely stringify values
+    function safeStringify(obj) {
+        const seen = new WeakSet();
+        return JSON.stringify(obj, (key, value) => {
+            if (typeof value === 'object' && value !== null) {
+                if (seen.has(value)) return '[Circular]';
+                seen.add(value);
+            }
+            if (value instanceof Error) {
+                return {
+                    name: value.name,
+                    message: value.message,
+                    stack: value.stack
+                };
+            }
+            return value;
+        });
+    }
+
+    // Batch and send logs
+    function flushLogs() {
+        if (logQueue.length === 0) return;
+
+        const batch = logQueue.splice(0, logQueue.length);
+
+        fetch(ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({ logs: batch })
+        }).catch(err => {
+            // Silently fail to avoid infinite loops
+            originalConsole.error('Failed to send logs:', err);
+        });
+    }
+
+    // Debounced flush (100ms)
+    function scheduleFlush() {
+        if (flushTimeout) clearTimeout(flushTimeout);
+        flushTimeout = setTimeout(flushLogs, 100);
+    }
+
+    // Intercept console methods
+    ['log', 'info', 'error', 'warn', 'table'].forEach(method => {
+        console[method] = function(...args) {
+            // Call original method
+            originalConsole[method].apply(console, args);
+
+            // Capture log data
+            try {
+                logQueue.push({
+                    type: method,
+                    timestamp: new Date().toISOString(),
+                    data: args.map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.parse(safeStringify(arg)) : arg;
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    }),
+                    url: window.location.href,
+                    userAgent: navigator.userAgent
+                });
+
+                scheduleFlush();
+            } catch (e) {
+                // Fail silently
+            }
+        };
+    });
+
+    // Global error handlers for uncaught errors
+    const originalOnError = window.onerror;
+    window.onerror = function boostErrorHandler(errorMsg, url, lineNumber, colNumber, error) {
+        try {
+            logQueue.push({
+                type: 'uncaught_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: errorMsg,
+                    filename: url,
+                    lineno: lineNumber,
+                    colno: colNumber,
+                    error: error ? {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Call original handler if it exists
+        if (originalOnError && typeof originalOnError === 'function') {
+            return originalOnError(errorMsg, url, lineNumber, colNumber, error);
+        }
+
+        // Let the error continue to propagate
+        return false;
+    }
+    window.addEventListener('error', (event) => {
+        try {
+            logQueue.push({
+                type: 'window_error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: event.message,
+                    filename: event.filename,
+                    lineno: event.lineno,
+                    colno: event.colno,
+                    error: event.error ? {
+                        name: event.error.name,
+                        message: event.error.message,
+                        stack: event.error.stack
+                    } : null
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the error continue to propagate
+        return false;
+    });
+    window.addEventListener('unhandledrejection', (event) => {
+        try {
+            logQueue.push({
+                type: 'error',
+                timestamp: new Date().toISOString(),
+                data: [{
+                    message: 'Unhandled Promise Rejection',
+                    reason: event.reason instanceof Error ? {
+                        name: event.reason.name,
+                        message: event.reason.message,
+                        stack: event.reason.stack
+                    } : event.reason
+                }],
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            });
+
+            scheduleFlush();
+        } catch (e) {
+            // Fail silently
+        }
+
+        // Let the rejection continue to propagate
+        return false;
+    });
+
+    // Flush on page unload
+    window.addEventListener('beforeunload', () => {
+        if (logQueue.length > 0) {
+            navigator.sendBeacon(ENDPOINT, JSON.stringify({ logs: logQueue }));
+        }
+    });
+})();
+</script>
+</head>
+
+<body>
+    <!-- ... body content ... -->
+
+
+    </body>
+<!-- Animated Background -->
+<div class="cyber-bg">
+    <div class="cyber-grid"></div>
+    <div class="cyber-glow"></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="http://127.0.0.1:8000" class="logo">
+            <span class="logo-icon">⚡</span>
+            <span class="logo-text">CYBER.NET</span>
+        </a>
+
+        <div class="nav-links">
+            <a href="http://127.0.0.1:8000" class="nav-link ">
+                <span class="nav-icon">🏠</span>
+                <span>Nyumbani</span>
+            </a>
+
+                            <a href="http://127.0.0.1:8000/login" class="nav-link">
+                    <span class="nav-icon">🔑</span>
+                    <span>Ingia</span>
+                </a>
+                <a href="http://127.0.0.1:8000/register" class="btn-primary-nav">
+                    Jiandikishe
+                </a>
+                    </div>
+
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="http://127.0.0.1:8000" class="mobile-link">🏠 Nyumbani</a>
+            <a href="http://127.0.0.1:8000/login" class="mobile-link">🔑 Ingia</a>
+        <a href="http://127.0.0.1:8000/register" class="mobile-link primary">✨ Jiandikishe</a>
+    </div>
+
+<!-- Flash Messages -->
+
+
+<!-- Main Content -->
+<main class="main-content">
+                <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">🔑 Karibu Tena</h1>
+                <p class="auth-subtitle">Ingia kwenye akaunti yako kuendelea.</p>
+            </div>
+
+            <form action="http://127.0.0.1:8000/login" method="POST">
+                <input type="hidden" name="_token" value="XawHuvyUfa1mNb4KfGihZRDhInFksJiT29zdZGEL" autocomplete="off">
+                <div class="form-group">
+                    <label class="form-label" for="phone">📱 Namba ya Simu</label>
+                    <input type="tel" id="phone" name="phone" class="form-input" placeholder="0712345678"
+                        value="" required autocomplete="tel">
+                                    </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">🔒 Password</label>
+                    <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required
+                        autocomplete="current-password">
+                                    </div>
+
+                <div class="form-group">
+                    <label class="form-checkbox">
+                        <input type="checkbox" name="remember" >
+                        <span>Nikumbuke</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span>🚀</span>
+                    Ingia
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Huna akaunti? <a href="http://127.0.0.1:8000/register">Jiandikishe hapa</a></p>
+            </div>
+        </div>
+    </div>
+    </main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-icon">⚡</span>
+                <span>CYBER HUNTER ONLINE</span>
+            </div>
+            <p class="footer-text">Premium VPN Configs kwa bei nafuu</p>
+
+            <div class="footer-links"
+                style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+                <a href="https://wa.me/260966122504"
+                    class="whatsapp-btn" target="_blank"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>💬</span> WhatsApp Msaada
+                </a>
+                <a href="https://www.youtube.com/@CyberHunter-b6n3t"
+                    class="youtube-btn" target="_blank"
+                    style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem; color: #ff0000; background: white; padding: 0.5rem 1rem; border-radius: 9999px; font-weight: bold;">
+                    <span>📺</span> Youtube Channel
+                </a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 CYBER.NET SERVICE. Haki zote zimehifadhiwa.</p>
+                <!-- <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">Developer by <span
+                        style="color: var(--accent-primary);">ERICKsky</span></p> -->
+            </div>
+        </div>
+</footer>
+
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+    }
+
+    // Close mobile menu on resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+            document.getElementById('mobileMenu').classList.remove('active');
+        }
+    });
+
+    // Auto dismiss alerts
+    setTimeout(() => {
+        document.querySelectorAll('.alert').forEach(alert => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        });
+    }, 5000);
+</script>
+</body>
+
+</html>

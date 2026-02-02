@@ -12,6 +12,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}?v={{ filemtime(public_path('css/app.css')) }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}?v={{ filemtime(public_path('css/admin.css')) }}">
+    <link rel="icon" href="{{ asset('cyberlogo.jpg') }}" type="image/jpeg">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('styles')
 </head>
@@ -22,7 +23,8 @@
         <aside class="admin-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="{{ route('admin.dashboard') }}" class="sidebar-logo">
-                    <span class="logo-icon">⚡</span>
+                    <img src="{{ asset('cyberlogo.jpg') }}" alt="Admin Logo"
+                        style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-primary); margin-right: 8px;">
                     <span class="logo-text">Admin</span>
                 </a>
                 <button class="sidebar-close" onclick="toggleSidebar()">×</button>
@@ -57,6 +59,12 @@
                     class="sidebar-link {{ request()->routeIs('admin.users') ? 'active' : '' }}">
                     <span class="link-icon">👥</span>
                     <span>Users</span>
+                </a>
+
+                <a href="{{ route('admin.notifications.create') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.notifications.*') ? 'active' : '' }}">
+                    <span class="link-icon">🔔</span>
+                    <span>Push Notify</span>
                 </a>
 
                 <div class="sidebar-divider"></div>

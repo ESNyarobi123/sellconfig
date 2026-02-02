@@ -12,9 +12,11 @@ class PlanController extends Controller
     /**
      * Show all plans
      */
-    public function index()
+    public function index(Request $request)
     {
-        $plans = Plan::withCount([
+        $type = $request->query('type', 'all');
+
+        $query = Plan::withCount([
             'configs as total_configs',
             'configs as available_configs' => function ($query) {
                 $query->where('status', 'available');
@@ -22,9 +24,15 @@ class PlanController extends Controller
             'configs as sold_configs' => function ($query) {
                 $query->where('status', 'sold');
             },
-        ])->orderByDesc('created_at')->get();
+        ]);
 
-        return view('admin.plans.index', compact('plans'));
+        if ($type !== 'all') {
+            $query->where('type', $type);
+        }
+
+        $plans = $query->orderByDesc('created_at')->get();
+
+        return view('admin.plans.index', compact('plans', 'type'));
     }
 
     /**
@@ -40,16 +48,28 @@ class PlanController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
-            'type' => 'required|in:weekly,bi_weekly,monthly',
+            'type' => 'required|in:weekly,bi_weekly,monthly,other',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:100',
             'duration' => 'nullable|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-        ]);
+        ];
+
+        // If type is 'other', require duration_days
+        if ($request->type === 'other') {
+            $rules['duration_days'] = 'required|integer|min:1|max:365';
+        }
+
+        $request->validate($rules);
 
         $data = $request->only(['name', 'type', 'description', 'price', 'duration']);
+
+        // Add duration_days for 'other' type
+        if ($request->type === 'other' && $request->duration_days) {
+            $data['duration_days'] = $request->duration_days;
+        }
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('plans', 'public');
@@ -75,17 +95,29 @@ class PlanController extends Controller
      */
     public function update(Request $request, Plan $plan)
     {
-        $request->validate([
+        $rules = [
             'name' => 'required|string|max:255',
-            'type' => 'required|in:weekly,bi_weekly,monthly',
+            'type' => 'required|in:weekly,bi_weekly,monthly,other',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:100',
             'duration' => 'nullable|string|max:100',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-        ]);
+        ];
+
+        // If type is 'other', require duration_days
+        if ($request->type === 'other') {
+            $rules['duration_days'] = 'required|integer|min:1|max:365';
+        }
+
+        $request->validate($rules);
 
         $data = $request->only(['name', 'type', 'description', 'price', 'duration']);
         $data['is_active'] = $request->boolean('is_active');
+
+        // Add duration_days for 'other' type
+        if ($request->type === 'other' && $request->duration_days) {
+            $data['duration_days'] = $request->duration_days;
+        }
 
         if ($request->hasFile('image')) {
             // Delete old image
